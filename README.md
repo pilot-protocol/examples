@@ -1,5 +1,8 @@
 # examples
 
+[![ci](https://github.com/pilot-protocol/examples/actions/workflows/ci.yml/badge.svg)](https://github.com/pilot-protocol/examples/actions/workflows/ci.yml)
+[![License: AGPL-3.0](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
+
 Pilot Protocol example programs — start here to see how the daemon,
 SDKs, and CLI fit together.
 
@@ -59,3 +62,7 @@ cd cli
 ```
 
 See [`cli/BASIC_USAGE.md`](cli/BASIC_USAGE.md) for the full shell walkthrough.
+
+## License
+
+AGPL-3.0-or-later. See [LICENSE](LICENSE).
