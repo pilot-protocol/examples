@@ -7,14 +7,29 @@ SDKs, and CLI fit together.
 
 | Path | What it is |
 |---|---|
-| `go/client/` | Minimal Go program: connect to local daemon, send a datagram. |
-| `go/echo/` | Echo client + listener using `pkg/driver`. |
-| `go/httpclient/` | HTTP-over-pilot client (proxy a fetch through the overlay). |
+| `go/client/` | Minimal Go program: connect to the local daemon and send a datagram. |
+| `go/echo/` | Echo client + listener built on `pkg/driver`. |
+| `go/httpclient/` | HTTP-over-pilot client — proxy a `fetch` through the overlay. |
 | `go/secure/` | Encrypted-stream demo using `pkg/secure`. |
-| `go/webserver/` | A tiny web server reachable by virtual address. |
-| `go/config/` | Sample JSON configs for daemon, rendezvous, nameserver. |
-| `cli/` | Shell-script demos using the `pilotctl` CLI — data exchange, event stream, task submit. |
-| `python_sdk/` | Python SDK examples — basic usage, pydantic_ai integration, demos. |
+| `go/webserver/` | Tiny web server reachable by virtual address. |
+| `go/config/` | Sample JSON configs for daemon, rendezvous, and nameserver. |
+| `cli/` | Shell-script demos driving the `pilotctl` CLI — data exchange, event stream, task submit. |
+| `python_sdk/` | Python SDK examples — basic usage, `pydantic_ai` integration, demos. |
+
+## Prerequisites
+
+You need a running daemon. Either install one from the
+[website](https://pilotprotocol.network), or build the protocol
+binary and run it locally:
+
+```bash
+go build -o bin/pilot-daemon github.com/TeoSlayer/pilotprotocol/cmd/daemon
+./bin/pilot-daemon \
+    -registry rendezvous.pilotprotocol.network:9000 \
+    -beacon   rendezvous.pilotprotocol.network:9001 \
+    -socket   /tmp/pilot.sock \
+    -encrypt
+```
 
 ## Run a Go example
 
@@ -23,22 +38,24 @@ cd go
 go run ./client
 ```
 
-The examples use `replace ../web4` so they build against the local
-sibling checkout of the protocol repo. If you want to build against
-a tagged release instead, replace `v0.0.0` in `go/go.mod` with the
-version you want and drop the replace lines.
+The Go module's `go.mod` pins a tagged release of the protocol module.
+Local development uses a `replace` directive to point at a sibling
+checkout of the protocol source — drop or adjust that line to build
+purely against the released module.
 
-## Prerequisites
-
-You'll generally need a running daemon. Either:
+## Run a Python example
 
 ```bash
-# Build + run from the protocol repo:
-cd ../web4
-go build -o bin/pilot-daemon ./cmd/daemon
-./bin/pilot-daemon -registry rendezvous.pilotprotocol.network:9000 \
-                   -beacon rendezvous.pilotprotocol.network:9001 \
-                   -socket /tmp/pilot.sock -encrypt
+cd python_sdk
+pip install -e .
+python basic_usage.py
 ```
 
-or install via the [website](https://pilotprotocol.network).
+## Run a CLI example
+
+```bash
+cd cli
+./data_exchange.sh
+```
+
+See [`cli/BASIC_USAGE.md`](cli/BASIC_USAGE.md) for the full shell walkthrough.
