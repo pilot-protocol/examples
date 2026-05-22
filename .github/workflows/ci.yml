@@ -1,0 +1,62 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  go-examples:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout this repo
+        uses: actions/checkout@v4
+        with:
+          path: examples
+
+      - name: Checkout web4
+        uses: actions/checkout@v4
+        with:
+          repository: TeoSlayer/pilotprotocol
+          path: web4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.25'
+          cache: true
+          cache-dependency-path: examples/go/go.sum
+
+      - name: Build Go examples
+        working-directory: examples/go
+        run: go build ./...
+
+  python-examples:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Syntax-check Python examples
+        run: |
+          for f in $(find python_sdk -name '*.py'); do
+            python -m py_compile "$f" || { echo "::error file=$f::syntax error"; exit 1; }
+          done
+          echo "all Python examples parse"
+
+  shell-examples:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Syntax-check shell scripts
+        run: |
+          for f in $(find cli -name '*.sh'); do
+            bash -n "$f" || { echo "::error file=$f::syntax error"; exit 1; }
+          done
+          echo "all shell scripts parse"
