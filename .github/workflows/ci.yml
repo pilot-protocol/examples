@@ -30,9 +30,17 @@ jobs:
           cache: true
           cache-dependency-path: examples/go/go.sum
 
+      - name: Tidy Go examples (absorb web4 drift)
+        working-directory: examples/go
+        run: go mod tidy
+
       - name: Build Go examples
         working-directory: examples/go
         run: go build ./...
+
+      - name: Test Go examples (compile smoke)
+        working-directory: examples/go
+        run: go test ./...
 
   python-examples:
     runs-on: ubuntu-latest
@@ -48,6 +56,13 @@ jobs:
             python -m py_compile "$f" || { echo "::error file=$f::syntax error"; exit 1; }
           done
           echo "all Python examples parse"
+
+      - name: Install pytest
+        run: python -m pip install --upgrade pip pytest
+
+      - name: Run Python example smoke tests
+        working-directory: python_sdk
+        run: python -m pytest tests/ -v
 
   shell-examples:
     runs-on: ubuntu-latest
