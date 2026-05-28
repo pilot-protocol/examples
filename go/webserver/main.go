@@ -8,7 +8,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/TeoSlayer/pilotprotocol/pkg/driver"
+	"github.com/pilot-protocol/common/driver"
 )
 
 func main() {
