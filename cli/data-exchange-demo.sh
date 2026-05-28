@@ -53,6 +53,7 @@ while true; do
         
         3)
             read -p "\nFile path: " FILE_PATH
+            if echo "$FILE_PATH" | grep -q '\.\.'; then echo "Error: Path traversal rejected" && continue; fi
             [ ! -f "$FILE_PATH" ] && echo "Error: File not found" && continue
             RESULT=$(pilotctl --json send-file "$TARGET_NODE" "$FILE_PATH")
             if [ $? -eq 0 ]; then
