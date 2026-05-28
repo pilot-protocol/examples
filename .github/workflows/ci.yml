@@ -34,6 +34,10 @@ jobs:
         working-directory: examples/go
         run: go build ./...
 
+      - name: Test Go examples (compile smoke)
+        working-directory: examples/go
+        run: go test ./...
+
   python-examples:
     runs-on: ubuntu-latest
     steps:
@@ -48,6 +52,13 @@ jobs:
             python -m py_compile "$f" || { echo "::error file=$f::syntax error"; exit 1; }
           done
           echo "all Python examples parse"
+
+      - name: Install pytest
+        run: python -m pip install --upgrade pip pytest
+
+      - name: Run Python example smoke tests
+        working-directory: python_sdk
+        run: python -m pytest tests/ -v
 
   shell-examples:
     runs-on: ubuntu-latest
