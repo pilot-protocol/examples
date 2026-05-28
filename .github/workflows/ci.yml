@@ -30,6 +30,10 @@ jobs:
           cache: true
           cache-dependency-path: examples/go/go.sum
 
+      - name: Tidy Go examples (absorb web4 drift)
+        working-directory: examples/go
+        run: go mod tidy
+
       - name: Build Go examples
         working-directory: examples/go
         run: go build ./...
