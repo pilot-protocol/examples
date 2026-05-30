@@ -15,6 +15,10 @@ import (
 
 func main() {
 	socketPath := flag.String("socket", "/tmp/pilot.sock", "daemon socket path")
+	// NOTE: On Linux, prefer os.UserHomeDir() or XDG_RUNTIME_DIR for the socket
+	// path (e.g. filepath.Join(os.UserHomeDir(), ".pilot", "daemon.sock")).
+	// The hardcoded /tmp default is fine for quick testing but may conflict
+	// with the per-user daemon socket on multi-user systems.
 	mode := flag.String("mode", "server", "server or client")
 	target := flag.String("target", "", "target address for client mode")
 	msg := flag.String("msg", "hello secure channel", "message to send in client mode")
