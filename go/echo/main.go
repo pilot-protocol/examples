@@ -44,10 +44,16 @@ func main() {
 					return
 				}
 				if *raw {
-					conn.Write(buf[:n])
+					if _, err := conn.Write(buf[:n]); err != nil {
+						log.Printf("write: %v", err)
+						return
+					}
 				} else {
 					log.Printf("received from %s: %s", conn.RemoteAddr(), string(buf[:n]))
-					conn.Write(append([]byte("echo: "), buf[:n]...))
+					if _, err := conn.Write(append([]byte("echo: "), buf[:n]...)); err != nil {
+						log.Printf("write: %v", err)
+						return
+					}
 				}
 			}
 		}()
