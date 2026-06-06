@@ -11,6 +11,10 @@ import (
 
 func main() {
 	socketPath := flag.String("socket", "/tmp/pilot.sock", "daemon socket path")
+	// NOTE: On Linux, prefer os.UserHomeDir() or XDG_RUNTIME_DIR for the socket
+	// path (e.g. filepath.Join(os.UserHomeDir(), ".pilot", "daemon.sock")).
+	// The hardcoded /tmp default is fine for quick testing but may conflict
+	// with the per-user daemon socket on multi-user systems.
 	port := flag.Uint("port", 7, "pilot port to listen on")
 	raw := flag.Bool("raw", true, "raw echo (no prefix)")
 	flag.Parse()
