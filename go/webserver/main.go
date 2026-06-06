@@ -30,7 +30,7 @@ func main() {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "text/html")
-		fmt.Fprintf(w, `<!DOCTYPE html>
+		if _, err := fmt.Fprintf(w, `<!DOCTYPE html>
 <html>
 <head><title>Pilot Protocol</title></head>
 <body>
@@ -38,12 +38,16 @@ func main() {
 <p>This page is served over the Pilot Protocol overlay network.</p>
 <p>You are connected to an agent at address: %s</p>
 </body>
-</html>`, ln.Addr())
+</html>`, ln.Addr()); err != nil {
+			log.Printf("write response: %v", err)
+		}
 	})
 
 	mux.HandleFunc("/status", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
-		fmt.Fprintf(w, `{"status":"ok","protocol":"pilot","port":%d}`, *port)
+		if _, err := fmt.Fprintf(w, `{"status":"ok","protocol":"pilot","port":%d}`, *port); err != nil {
+			log.Printf("write response: %v", err)
+		}
 	})
 
 	log.Printf("webserver listening on pilot port %d", *port)
