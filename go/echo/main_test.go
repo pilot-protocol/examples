@@ -9,5 +9,5 @@ import "testing"
 // upstream pkg/protocol or SDK API breakage as web4 evolves.
 func TestExampleCompiles(t *testing.T) {
 	// Build success is implicit: the test binary cannot link if main.go
-	// references a missing or renamed symbol in github.com/TeoSlayer/pilotprotocol.
+	// references a missing or renamed symbol in github.com/pilot-protocol/pilotprotocol.
 }

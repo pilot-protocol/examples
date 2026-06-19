@@ -4,7 +4,7 @@ go 1.25.10
 
 require github.com/pilot-protocol/common v0.1.0
 
-replace github.com/TeoSlayer/pilotprotocol => ../../web4
+replace github.com/pilot-protocol/pilotprotocol => ../../web4
 
 // Mirror web4's replace directives so transitive deps resolve.
 replace github.com/pilot-protocol/app-store => ../../app-store
