@@ -26,7 +26,7 @@ You need a running daemon. Either install one from the
 binary and run it locally:
 
 ```bash
-go build -o bin/pilot-daemon github.com/TeoSlayer/pilotprotocol/cmd/daemon
+go build -o bin/pilot-daemon github.com/pilot-protocol/pilotprotocol/cmd/daemon
 ./bin/pilot-daemon \
     -registry rendezvous.pilotprotocol.network:9000 \
     -beacon   rendezvous.pilotprotocol.network:9001 \
